@@ -2,7 +2,8 @@
 
 [![License](https://img.shields.io/badge/License-CC0%201.0-green?style=flat-square)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![Version](https://img.shields.io/badge/Version-2026--05--14-orange?style=flat-square)](https://github.com/AdzCoder/custom-instructions/releases)
-[![GPT Tokens](https://img.shields.io/badge/Tokens--GPT-~0-lightgrey?style=flat-square)]()
+[![GPT Tokens](https://img.shields.io/badge/Tokens--GPT-~186-lightgrey?style=flat-square)](https://platform.openai.com/tokenizer)
+[![Claude Tokens](https://img.shields.io/badge/Tokens--Claude-~221-lightgrey?style=flat-square)](https://claude-tokenizer.vercel.app)
 
 A patch for AI assistants. Targets the gaps between how they respond by default and how they should.
 
