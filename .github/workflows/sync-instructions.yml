@@ -19,31 +19,14 @@ jobs:
 
       - name: Inject instructions.txt into README
         run: |
-          python3 - << 'PYEOF'
-import re, pathlib
-
-content = pathlib.Path('instructions.txt').read_text()
-readme  = pathlib.Path('README.md').read_text()
-
-block = (
-    "<!-- INSTRUCTIONS_START -->\n"
-    "<details>\n"
-    "<summary>View instructions.txt</summary>\n\n"
-    "```xml\n"
-    f"{content}\n"
-    "```\n\n"
-    "</details>\n"
-    "<!-- INSTRUCTIONS_END -->"
-)
-
-updated = re.sub(
-    r'<!-- INSTRUCTIONS_START -->.*?<!-- INSTRUCTIONS_END -->',
-    block,
-    readme,
-    flags=re.DOTALL
-)
-pathlib.Path('README.md').write_text(updated)
-PYEOF
+          python3 -c "
+          import re, pathlib
+          content = pathlib.Path('instructions.txt').read_text()
+          readme = pathlib.Path('README.md').read_text()
+          block = '<!-- INSTRUCTIONS_START -->\n<details>\n<summary>View instructions.txt</summary>\n\n\`\`\`xml\n' + content + '\n\`\`\`\n\n</details>\n<!-- INSTRUCTIONS_END -->'
+          updated = re.sub(r'<!-- INSTRUCTIONS_START -->.*?<!-- INSTRUCTIONS_END -->', block, readme, flags=re.DOTALL)
+          pathlib.Path('README.md').write_text(updated)
+          "
 
       - name: Commit changes
         run: |
