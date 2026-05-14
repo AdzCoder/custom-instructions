@@ -89,7 +89,6 @@ UK English. No em dashes.
 
 </details>
 <!-- INSTRUCTIONS_END -->
-```
 
 </details>
 
