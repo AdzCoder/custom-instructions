@@ -1,0 +1,52 @@
+name: Sync instructions to README
+
+on:
+  push:
+    paths:
+      - 'instructions.txt'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inject instructions.txt into README
+        run: |
+          python3 - << 'PYEOF'
+import re, pathlib
+
+content = pathlib.Path('instructions.txt').read_text()
+readme  = pathlib.Path('README.md').read_text()
+
+block = (
+    "<!-- INSTRUCTIONS_START -->\n"
+    "<details>\n"
+    "<summary>View instructions.txt</summary>\n\n"
+    "```xml\n"
+    f"{content}\n"
+    "```\n\n"
+    "</details>\n"
+    "<!-- INSTRUCTIONS_END -->"
+)
+
+updated = re.sub(
+    r'<!-- INSTRUCTIONS_START -->.*?<!-- INSTRUCTIONS_END -->',
+    block,
+    readme,
+    flags=re.DOTALL
+)
+pathlib.Path('README.md').write_text(updated)
+PYEOF
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git diff --quiet || (git add README.md && git commit -m "Sync instructions.txt to README" && git push)
